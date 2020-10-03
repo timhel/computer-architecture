@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef unsigned char *byte_pointer;
 
@@ -35,28 +36,37 @@ void show_pointer(void *x)
     show_bytes((byte_pointer) &x, sizeof(void *));
 }
 
+void show_string(char *x)
+{
+    show_bytes((byte_pointer) x, strlen(x) + 1);
+}
+
 int main(int argc, char *argv[])
 {
-    int ival = atoi(argv[1]);
-    long lval = atol(argv[1]);
+    char *str = argv[1];
+    int ival = atoi(str);
+    long lval = atol(str);
     float fval = (float) ival;
     double dval = (double) lval;
     long *pval = &lval;
 
-    printf("Input: %s\n", argv[1]);
-    printf("Int representation:    ");
+    printf("Input string: %s\n", str);
+    printf("String representation:                 ");
+    show_string(str); 
+    printf("\n");
+    printf("Int atoi(string)  representation:      ");
     show_int(ival);
     printf("             (%d)\n", ival);
-    printf("Long representation:   ");
+    printf("Long atol(string) representation:      ");
     show_long(lval);
     printf(" (%ld)\n", lval);
-    printf("Float representation:  ");
+    printf("Float (cast from int) representation:  ");
     show_float(fval);
     printf("             (%.1f)\n", fval);
-    printf("Double representation: ");
+    printf("Double (cast from long) representation:");
     show_double(dval);
     printf(" (%.1f)\n", dval);
-    printf("Address representation:");
+    printf("Address (of long) representation:      ");
     show_pointer(pval);
     printf(" (%p)\n", pval);
 }
